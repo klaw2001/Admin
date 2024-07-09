@@ -46,12 +46,22 @@ const SidebarData = [
     url: "/user-list",
     isHasArrow: true,
   },
-   {
+  {
     label: "Marketplace",
-    icon: "mdi mdi-account-circle-outline",
+    icon: "mdi mdi-storefront-outline",
     subItem: [
       { sublabel: "Products", link: "/marketplace-products" },
       { sublabel: "Categories", link: "/marketplace-categories" },
+      { sublabel: "Subcategories", link: "/marketplace-subcategories" },
+      { sublabel: "Orders", link: "/marketplace-orders" },
+    ],
+  },
+  {
+    label: "Store",
+    icon: "mdi mdi-shopping-outline",
+    subItem: [
+      { sublabel: "Products", link: "/marketplace-products" },
+      { sublabel: "Categories", link: "/store-categories" },
       { sublabel: "Subcategories", link: "/marketplace-subcategories" },
       { sublabel: "Orders", link: "/marketplace-orders" },
     ],

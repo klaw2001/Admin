@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Form,
@@ -8,36 +8,18 @@ import {
   FormText,
   Container,
 } from 'reactstrap';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useApi } from '../../../context/MyContext';
-import Breadcrumbs from '../../../components/Common/Breadcrumb';
+import { useNavigate } from 'react-router-dom';
+import { useApi } from '../../context/MyContext';
+import Breadcrumbs from '../../components/Common/Breadcrumb';
 
-const EditCategory = () => {
+const AddStoreCategory = () => {
   const navigate = useNavigate();
-  const { getSingleCategory, singleCategory, updateCategory } = useApi();
-  const { category_id } = useParams();
+  const { addStoreCategory } = useApi();
   const [category, setCategory] = useState({
-    name: "",
-    image: "",
+    name: '',
+    image: null,
   });
-  const getSinCategory = async(category_id)=>{
-    try {
-      const res = await getSingleCategory(category_id)
-      setCategory({
-        name:res.name,
-        image:res.image
-      })
-    } catch (error) {
-      console.error(error)
-    }
-  } 
-
-  useEffect(() => {
-    getSinCategory(category_id);
-  }, []);
-
- 
-  const [imagePreview, setImagePreview] = useState(singleCategory?.image);
+  const [imagePreview, setImagePreview] = useState(null); // State to hold image preview URL
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,22 +45,17 @@ const EditCategory = () => {
   };
 
   const handleSubmit = async (e) => {
+    console.log(category)
     e.preventDefault();
-
-    // Create FormData object to handle file uploads
-    const formData = new FormData();
-    Object.keys(category).forEach((key) => {
-      formData.append(key, category[key]);
-    });
-
+  
     try {
-      await updateCategory(category_id, formData);
-      navigate('/marketplace-categories');
+      await addStoreCategory(category);
+      navigate('/store-categories');
     } catch (error) {
       console.error(error);
     }
   };
-
+  
   const formGroupStyle = {
     display: 'flex',
     alignItems: 'center',
@@ -98,7 +75,7 @@ const EditCategory = () => {
     <React.Fragment>
       <div className="page-content">
         <Container fluid={true}>
-          <Breadcrumbs title="Marketplace" breadcrumbItem="Edit Category" />
+          <Breadcrumbs title="Store" breadcrumbItem="Add Store Category" />
 
           <Form onSubmit={handleSubmit}>
             <FormGroup style={formGroupStyle}>
@@ -127,17 +104,19 @@ const EditCategory = () => {
                 onChange={handleFileChange}
                 style={inputStyle}
               />
-              {imagePreview && (
-                <img
-                  src={imagePreview}
-                  alt="Category Preview"
-                  style={{ width: '100px', height: '100px', marginTop: '10px' }}
-                />
-              )}
               <FormText color="muted">Upload the category image.</FormText>
+              {imagePreview && (
+                <div className="mt-2">
+                  <img
+                    src={imagePreview}
+                    alt="Category Preview"
+                    style={{ maxWidth: '200px' }}
+                  />
+                </div>
+              )}
             </FormGroup>
             <Button type="submit" color="primary">
-              Update Category
+              Add Store Category
             </Button>
           </Form>
         </Container>
@@ -146,4 +125,4 @@ const EditCategory = () => {
   );
 };
 
-export default EditCategory;
+export default AddStoreCategory;

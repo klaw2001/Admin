@@ -9,24 +9,26 @@ import {
   Container,
 } from 'reactstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useApi } from '../../../context/MyContext';
-import Breadcrumbs from '../../../components/Common/Breadcrumb';
+import { useApi } from '../../context/MyContext';
+import Breadcrumbs from '../../components/Common/Breadcrumb';
 
-const EditCategory = () => {
+const EditStoreCategory = () => {
   const navigate = useNavigate();
-  const { getSingleCategory, singleCategory, updateCategory } = useApi();
+  const { getSingleStoreCategory, updateStoreCategory } = useApi();
   const { category_id } = useParams();
+  const [imagePreview, setImagePreview] = useState("");
   const [category, setCategory] = useState({
     name: "",
     image: "",
   });
   const getSinCategory = async(category_id)=>{
     try {
-      const res = await getSingleCategory(category_id)
+      const res = await getSingleStoreCategory(category_id)
       setCategory({
         name:res.name,
         image:res.image
       })
+      setImagePreview(res.image)
     } catch (error) {
       console.error(error)
     }
@@ -37,7 +39,6 @@ const EditCategory = () => {
   }, []);
 
  
-  const [imagePreview, setImagePreview] = useState(singleCategory?.image);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -72,8 +73,8 @@ const EditCategory = () => {
     });
 
     try {
-      await updateCategory(category_id, formData);
-      navigate('/marketplace-categories');
+      await updateStoreCategory(category_id, formData);
+      navigate('/store-categories');
     } catch (error) {
       console.error(error);
     }
@@ -98,7 +99,7 @@ const EditCategory = () => {
     <React.Fragment>
       <div className="page-content">
         <Container fluid={true}>
-          <Breadcrumbs title="Marketplace" breadcrumbItem="Edit Category" />
+          <Breadcrumbs title="Store" breadcrumbItem="Edit Store Category" />
 
           <Form onSubmit={handleSubmit}>
             <FormGroup style={formGroupStyle}>
@@ -146,4 +147,4 @@ const EditCategory = () => {
   );
 };
 
-export default EditCategory;
+export default EditStoreCategory;

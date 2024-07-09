@@ -4,17 +4,17 @@ import { Button, Container, Modal, ModalHeader, ModalBody } from "reactstrap";
 import Breadcrumbs from "../../components/Common/Breadcrumb";
 import { BasicTable } from "../Tables/DataTables/datatableCom";
 import { Link, useNavigate } from "react-router-dom";
-import CategoryTable from "./Categories/CategoryTable";
+import CategoryTable from "../Marketplace/Categories/CategoryTable";
 
-const CategoriesList = () => {
+const StoreCategoryList = () => {
   const navigate = useNavigate();
-  const { getAllCategories, categories, deleteCategory } = useApi();
+  const { getAllStoreCategories, storeCategories, deleteStoreCategory } = useApi();
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedThumbnail, setSelectedThumbnail] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
-    getAllCategories();
+    getAllStoreCategories();
   }, []);
 
   const handleView = (id) => {
@@ -23,14 +23,11 @@ const CategoriesList = () => {
   };
 
   const handleEdit = (id) => {
-    console.log("Edit product with id:", id);
-    navigate(`/marketplace-categories/edit-category/${id}`);
+    navigate(`/store-categories/edit-category/${id}`);
   };
 
   const handleDelete = async (id) => {
-    console.log("Delete product with id:", id);
-    await deleteCategory(id);
-    
+    await deleteStoreCategory(id);
   };
 
   // Function to open the modal and set the selected thumbnail
@@ -52,18 +49,18 @@ const CategoriesList = () => {
     <React.Fragment>
       <div className="page-content">
         <Container fluid={true}>
-          <Breadcrumbs title="Marketplace" breadcrumbItem="All Products" />
+          <Breadcrumbs title="Marketplace" breadcrumbItem="All Store Categories" />
           <Link
             color="success"
             role="button"
             className="add-btn btn btn-primary mb-3"
-            to="/marketplace-products/add-category"
+            to="/store-categories/add-category"
             id="create-btn"
           >
-            <i className="ri-add-line align-bottom me-1"></i> Add Category
+            <i className="ri-add-line align-bottom me-1"></i> Add Store Category
           </Link>
           <CategoryTable
-            categories={categories}
+            categories={storeCategories}
             onView={handleView}
             onEdit={handleEdit}
             onDelete={handleDelete}
@@ -88,4 +85,4 @@ const CategoriesList = () => {
   );
 };
 
-export default CategoriesList;
+export default StoreCategoryList;

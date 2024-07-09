@@ -17,7 +17,14 @@ export const ContextProvider = ({ children }) => {
   const [singleProduct, setSingleProduct] = useState({});
   const [categories, setCategories] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [storeCategories, setStoreCategories] = useState([]);
   const userID = localStorage.getItem("userID");
+  const config = {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  };
+
   const getAllUsers = async () => {
     try {
       const res = await axios.get(API + "/auth/get-all-users");
@@ -136,7 +143,10 @@ export const ContextProvider = ({ children }) => {
 
   const addCategory = async (categoryData) => {
     try {
-      const res = await axios.post(API + "/categories/add-category" , categoryData);
+      const res = await axios.post(
+        API + "/categories/add-category",
+        categoryData , config
+      );
       setCategories([...categories, res.data]);
     } catch (error) {
       console.log(error);
@@ -182,14 +192,70 @@ export const ContextProvider = ({ children }) => {
   const getAllOrders = async () => {
     try {
       const res = await axios.get(API + "/orders/getAllOrders");
-      console.log(res.data)
-      setOrders(res.data)
+      console.log(res.data);
+      setOrders(res.data);
       return res;
     } catch (error) {
       console.log(error);
     }
   };
 
+  const getAllStoreCategories = async () => {
+    try {
+      const res = await axios.get(API + "/storeCategory/all-store-category");
+      setStoreCategories(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const addStoreCategory = async (formData) => {
+    console.log(formData)
+    try {
+      const res = await axios.post(
+        API + "/storeCategory/add-store-category",
+        formData , config
+      );
+      setStoreCategories([...storeCategories, res.data]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getSingleStoreCategory = async (id) => {
+    try {
+      const res = await axios.get(`${API}/storeCategory/${id}`);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const updateStoreCategory = async (id, updatedCategory) => {
+    try {
+      const res = await axios.put(
+        `${API}/storeCategory/${id}`,
+        updatedCategory,
+        config
+      );
+      setStoreCategories((prevCategories) =>
+        prevCategories.map((category) =>
+          category._id === id ? res.data : category
+        )
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const deleteStoreCategory = async (id) => {
+    try {
+      const res = await axios.delete(`${API}/storeCategory/${id}`);
+      if (res.status === 200) {
+        setStoreCategories((prevCategories) =>
+          prevCategories.filter((category) => category._id !== id)
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <mycontext.Provider
@@ -209,6 +275,12 @@ export const ContextProvider = ({ children }) => {
         updateCategory,
         deleteCategory,
         getAllOrders,
+        getAllStoreCategories,
+        addStoreCategory,
+        getSingleStoreCategory,
+        updateStoreCategory,
+        deleteStoreCategory,
+        storeCategories,
         orders,
         singleProduct,
         users,
