@@ -14,6 +14,7 @@ export const ContextProvider = ({ children }) => {
   const [signupError, setSignupError] = useState(null);
   // const [userID, setUserID] = useState("");
   const [products, setProducts] = useState([]);
+  const [storeProducts, setStoreProducts] = useState([]);
   const [singleProduct, setSingleProduct] = useState({});
   const [categories, setCategories] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -21,8 +22,8 @@ export const ContextProvider = ({ children }) => {
   const userID = localStorage.getItem("userID");
   const config = {
     headers: {
-      'Content-Type': 'multipart/form-data'
-    }
+      "Content-Type": "multipart/form-data",
+    },
   };
 
   const getAllUsers = async () => {
@@ -145,7 +146,8 @@ export const ContextProvider = ({ children }) => {
     try {
       const res = await axios.post(
         API + "/categories/add-category",
-        categoryData , config
+        categoryData,
+        config
       );
       setCategories([...categories, res.data]);
     } catch (error) {
@@ -209,11 +211,12 @@ export const ContextProvider = ({ children }) => {
     }
   };
   const addStoreCategory = async (formData) => {
-    console.log(formData)
+    console.log(formData);
     try {
       const res = await axios.post(
         API + "/storeCategory/add-store-category",
-        formData , config
+        formData,
+        config
       );
       setStoreCategories([...storeCategories, res.data]);
     } catch (error) {
@@ -256,6 +259,59 @@ export const ContextProvider = ({ children }) => {
       console.error(error);
     }
   };
+  const addSpecificUserStoreProduct = async (productData) => {
+    try {
+      const res = await axios.post(
+        API + "/store-product/add-store-product",
+        productData
+      );
+      setStoreProducts([...storeProducts, res]);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getUserStoreProduct = async () => {
+    try {
+      // const res = await axios.get(API + "/products/user/" + userID);
+      const res = await axios.get(
+        `${API}/store-product/all-products/${userID}`
+      );
+      setLoading(false);
+      setStoreProducts(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getSingleStoreProduct = async (productID) => {
+    try {
+      const res = await axios.get(API + "/store-product/" + productID);
+      setLoading(false);
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const updateStoreProduct = async (productID, productData) => {
+    try {
+      const res = await axios.put(
+        API + "/store-product/" + productID,
+        productData
+      );
+      setStoreProducts([...storeProducts, res.data]);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const deleteStoreProduct = async (productID) => {
+    try {
+      const res = await axios.delete(API + "/store-product/" + productID);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <mycontext.Provider
@@ -280,6 +336,12 @@ export const ContextProvider = ({ children }) => {
         getSingleStoreCategory,
         updateStoreCategory,
         deleteStoreCategory,
+        addSpecificUserStoreProduct,
+        getUserStoreProduct,
+        getSingleStoreProduct,
+        updateStoreProduct,
+        deleteStoreProduct,
+        storeProducts,
         storeCategories,
         orders,
         singleProduct,

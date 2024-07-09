@@ -103,6 +103,9 @@ import AddCategory from "../Pages/Marketplace/Categories/AddCategory.jsx";
 import StoreCategoryList from "../Pages/Store/StoreCategoryList.jsx";
 import AddStoreCategory from "../Pages/Store/AddStoreCategory.jsx";
 import EditStoreCategory from "../Pages/Store/EditStoreCategory.jsx";
+import StoreProductList from "../Pages/Store/products/StoreProductList.jsx";
+import AddStoreProduct from "../Pages/Store/products/AddStoreProduct.jsx";
+import EditStoreProduct from "../Pages/Store/products/EditStoreProduct.jsx";
 
 const authProtectedRoutes = [
   //dashboard
@@ -128,9 +131,9 @@ const authProtectedRoutes = [
 
 
   //Store
-  { path: "/marketplace-products", component: <ProductList /> },
-  { path: "/marketplace-products/add-product", component: <AddProduct /> },
-  { path: "/marketplace-products/edit-product/:product_id", component: <EditProduct /> },
+  { path: "/store-products", component: <StoreProductList /> },
+  { path: "/store-products/add-product", component: <AddStoreProduct /> },
+  { path: "/store-products/edit-product/:product_id", component: <EditStoreProduct /> },
 
 
   { path: "/store-categories", component: <StoreCategoryList /> },

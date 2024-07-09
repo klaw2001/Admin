@@ -60,7 +60,7 @@ const SidebarData = [
     label: "Store",
     icon: "mdi mdi-shopping-outline",
     subItem: [
-      { sublabel: "Products", link: "/marketplace-products" },
+      { sublabel: "Products", link: "/store-products" },
       { sublabel: "Categories", link: "/store-categories" },
       { sublabel: "Subcategories", link: "/marketplace-subcategories" },
       { sublabel: "Orders", link: "/marketplace-orders" },
