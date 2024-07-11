@@ -109,6 +109,9 @@ import EditStoreProduct from "../Pages/Store/products/EditStoreProduct.jsx";
 import ListingCategoryList from "../Pages/Listings/Categories/ListingCategoryList.jsx";
 import AddListingCategory from "../Pages/Listings/Categories/AddListingCategory.jsx";
 import EditListingCategory from "../Pages/Listings/Categories/EditListingCategory.jsx";
+import ListingList from "../Pages/Listings/Business/ListingList.jsx";
+import AddListing from "../Pages/Listings/Business/AddListing.jsx";
+import EditListing from "../Pages/Listings/Business/EditListing.jsx";
 
 const authProtectedRoutes = [
   //dashboard
@@ -147,9 +150,9 @@ const authProtectedRoutes = [
 
 
   //Listing Categories
-  { path: "/store-products", component: <StoreProductList /> },
-  { path: "/store-products/add-product", component: <AddStoreProduct /> },
-  { path: "/store-products/edit-product/:product_id", component: <EditStoreProduct /> },
+  { path: "/listings-list", component: <ListingList /> },
+  { path: "/listings/add-listing", component: <AddListing /> },
+  { path: "/listings/edit-listing/:listing_id", component: <EditListing /> },
 
 
   { path: "/listing-categories", component: <ListingCategoryList /> },

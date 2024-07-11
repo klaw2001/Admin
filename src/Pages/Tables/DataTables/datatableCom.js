@@ -84,7 +84,7 @@ const BasicTable = ({ products, onView, onEdit, onDelete, openModal , openImageM
               <img
                 src={row?.images[0]}
                 alt="Thumbnail"
-                style={{ maxWidth: "50px", cursor: "pointer" }}
+                style={{ maxWidth: "50px",cursor: "pointer" }}
               />
             </div>
           ) : (

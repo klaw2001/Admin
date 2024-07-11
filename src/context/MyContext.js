@@ -2,7 +2,8 @@ import axios from "axios";
 import React, { createContext, useContext, useState } from "react";
 
 const mycontext = createContext();
-const API = "http://localhost:3000/api";
+// const API = "http://localhost:3000/api";
+const API = "https://dialable-revamp.vercel.app/api";
 
 export const ContextProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
@@ -19,7 +20,8 @@ export const ContextProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [orders, setOrders] = useState([]);
   const [storeCategories, setStoreCategories] = useState([]);
-  const [listingCategories, setListingCategories] = useState([])
+  const [listingCategories, setListingCategories] = useState([]);
+  const [listings, setListings] = useState([]);
   const userID = localStorage.getItem("userID");
   const config = {
     headers: {
@@ -372,6 +374,67 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+  //Business Listings
+  const getAllBusinessListings = async () => {
+    try {
+      const res = await axios.get(API + "/listing/business/get-all-business");
+      setListings(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const addListingBusiness = async (formData) => {
+    console.log(formData);
+    try {
+      const res = await axios.post(
+        API + "/listing/business/add-business",
+        formData,
+        config
+      );
+      setListingCategories([...listingCategories, res.data]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getSingleListingBusiness = async (id) => {
+    try {
+      const res = await axios.get(`${API}/listing/business/${id}`);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const updateListingBusiness = async (id, updatedBusiness) => {
+    try {
+      const res = await axios.put(
+        `${API}/listing/business/${id}`,
+        updatedBusiness,
+        config
+      );
+      setListings((prevBusinesses) =>
+        prevBusinesses.map((business) =>
+          business._id === id ? res.data : business
+        )
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const deleteListingBusiness = async (id) => {
+    try {
+      const res = await axios.delete(`${API}/listing/business/${id}`);
+      if (res.status === 200) {
+        setListings((prevBusinesses) =>
+          prevBusinesses.filter((business) => business._id !== id)
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  
+
   return (
     <mycontext.Provider
       value={{
@@ -401,11 +464,17 @@ export const ContextProvider = ({ children }) => {
         updateStoreProduct,
         deleteStoreProduct,
         getAllListingCategories,
-addListingCategory,
-getSingleListingCategory,
-updateListingCategory,
-deleteListingCategory,
-listingCategories,
+        addListingCategory,
+        getSingleListingCategory,
+        updateListingCategory,
+        deleteListingCategory,
+        getAllBusinessListings,
+        addListingBusiness,
+getSingleListingBusiness,
+updateListingBusiness,
+deleteListingBusiness,
+        listings,
+        listingCategories,
         storeProducts,
         storeCategories,
         orders,
