@@ -47,6 +47,14 @@ const SidebarData = [
     isHasArrow: true,
   },
   {
+    label: "Listings",
+    icon: "mdi mdi-shopping-outline",
+    subItem: [
+      { sublabel: "Business Listings", link: "/listings-list" },
+      { sublabel: "Categories", link: "/listing-categories" },
+    ],
+  },
+  {
     label: "Marketplace",
     icon: "mdi mdi-storefront-outline",
     subItem: [

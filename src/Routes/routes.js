@@ -106,6 +106,9 @@ import EditStoreCategory from "../Pages/Store/EditStoreCategory.jsx";
 import StoreProductList from "../Pages/Store/products/StoreProductList.jsx";
 import AddStoreProduct from "../Pages/Store/products/AddStoreProduct.jsx";
 import EditStoreProduct from "../Pages/Store/products/EditStoreProduct.jsx";
+import ListingCategoryList from "../Pages/Listings/Categories/ListingCategoryList.jsx";
+import AddListingCategory from "../Pages/Listings/Categories/AddListingCategory.jsx";
+import EditListingCategory from "../Pages/Listings/Categories/EditListingCategory.jsx";
 
 const authProtectedRoutes = [
   //dashboard
@@ -139,6 +142,19 @@ const authProtectedRoutes = [
   { path: "/store-categories", component: <StoreCategoryList /> },
   { path: "/store-categories/add-category", component: <AddStoreCategory /> },
   { path: "/store-categories/edit-category/:category_id", component: <EditStoreCategory /> },
+  { path: "/marketplace-subcategories", component: <SubCategories /> },
+  { path: "/marketplace-orders", component: <OrderList /> },
+
+
+  //Listing Categories
+  { path: "/store-products", component: <StoreProductList /> },
+  { path: "/store-products/add-product", component: <AddStoreProduct /> },
+  { path: "/store-products/edit-product/:product_id", component: <EditStoreProduct /> },
+
+
+  { path: "/listing-categories", component: <ListingCategoryList /> },
+  { path: "/listing-categories/add-category", component: <AddListingCategory /> },
+  { path: "/listing-categories/edit-category/:category_id", component: <EditListingCategory /> },
   { path: "/marketplace-subcategories", component: <SubCategories /> },
   { path: "/marketplace-orders", component: <OrderList /> },
   

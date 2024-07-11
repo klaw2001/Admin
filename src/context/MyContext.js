@@ -19,6 +19,7 @@ export const ContextProvider = ({ children }) => {
   const [categories, setCategories] = useState([]);
   const [orders, setOrders] = useState([]);
   const [storeCategories, setStoreCategories] = useState([]);
+  const [listingCategories, setListingCategories] = useState([])
   const userID = localStorage.getItem("userID");
   const config = {
     headers: {
@@ -313,6 +314,64 @@ export const ContextProvider = ({ children }) => {
     }
   };
 
+  const getAllListingCategories = async () => {
+    try {
+      const res = await axios.get(API + "/listing/category/get-all-categories");
+      setListingCategories(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const addListingCategory = async (formData) => {
+    console.log(formData);
+    try {
+      const res = await axios.post(
+        API + "/listing/category/add-category",
+        formData,
+        config
+      );
+      setListingCategories([...listingCategories, res.data]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getSingleListingCategory = async (id) => {
+    try {
+      const res = await axios.get(`${API}/listing/category/${id}`);
+      return res.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const updateListingCategory = async (id, updatedCategory) => {
+    try {
+      const res = await axios.put(
+        `${API}/listing/category/${id}`,
+        updatedCategory,
+        config
+      );
+      setListingCategories((prevCategories) =>
+        prevCategories.map((category) =>
+          category._id === id ? res.data : category
+        )
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const deleteListingCategory = async (id) => {
+    try {
+      const res = await axios.delete(`${API}/listing/category/${id}`);
+      if (res.status === 200) {
+        setListingCategories((prevCategories) =>
+          prevCategories.filter((category) => category._id !== id)
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <mycontext.Provider
       value={{
@@ -341,6 +400,12 @@ export const ContextProvider = ({ children }) => {
         getSingleStoreProduct,
         updateStoreProduct,
         deleteStoreProduct,
+        getAllListingCategories,
+addListingCategory,
+getSingleListingCategory,
+updateListingCategory,
+deleteListingCategory,
+listingCategories,
         storeProducts,
         storeCategories,
         orders,
